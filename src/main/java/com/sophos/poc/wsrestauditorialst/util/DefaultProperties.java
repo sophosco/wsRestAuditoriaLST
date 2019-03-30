@@ -4,8 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
-
 
 @Configuration
 public class DefaultProperties {
@@ -16,6 +17,9 @@ public class DefaultProperties {
 	private String user;
 	private String pass;
 	private String concurrency;
+	
+	private static final Logger logger = LogManager.getLogger(DefaultProperties.class);
+	
 	
 	private static String file = "config.properties"; 
 	private static DefaultProperties instance = null;
@@ -43,12 +47,11 @@ public class DefaultProperties {
 			setQueue(envQU != null && envQU != "" ? envQU : pr.getProperty(cts.PRP_FILE_QUEUE));
 			setUser(envUS != null && envUS != "" ? envUS : pr.getProperty(cts.PRP_FILE_USR));
 			setPass(envPS != null && envPS != "" ? envPS : pr.getProperty(cts.PRP_FILE_PSS));
-			setErrorQueue(envQE != null && envQE!= "" ? envQE : pr.getProperty("active.default.error.queue"));
-			setConcurrency(envCC != null && envCC != "" ? envCC : pr.getProperty("active.default.concurrency"));
+			setErrorQueue(envQE != null && envQE!= "" ? envQE : pr.getProperty(cts.PRP_FILE_QUEUEERR));
+			setConcurrency(envCC != null && envCC != "" ? envCC : pr.getProperty(cts.PRP_FILE_CONCRR));
 			
 		} catch (IOException ex) {
-			System.out.println("Problem occurs when reading Default Config Properties config.properties !!!");
-			ex.printStackTrace();
+			logger.error("Problem occurs when reading Default Config Properties config.properties !!!", ex);
 		} 
 		
 	}

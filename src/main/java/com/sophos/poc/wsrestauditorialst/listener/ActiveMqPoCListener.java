@@ -14,11 +14,11 @@ import com.sophos.poc.wsrestauditorialst.util.DefaultProperties;
 public class ActiveMqPoCListener {
 
 	@Autowired
-	DefaultProperties conf;
+	private DefaultProperties conf;
 	@Autowired
-	ActiveMQtoRadisService toRadis;
+	private ActiveMQtoRadisService toRadis;
 	@Autowired
-	ActiveMQtoActiveMQService toActive;
+	private ActiveMQtoActiveMQService toActive;
 	
 	private static final Logger logger = LogManager.getLogger(ActiveMqPoCListener.class);
 	
@@ -27,7 +27,7 @@ public class ActiveMqPoCListener {
 		try {
 			toRadis.putMessage(rq);
 		}catch(Exception ex) {
-			logger.error("Se presento un error enviando mensaje a Radis, Se retornara el mensaje a ActiveMQ");
+			logger.error("Se presento un error enviando mensaje a Radis, Se retornara el mensaje a ActiveMQ:" + ex);
 			toActive.publishMessage(rq, conf.getErrorQueue());
 		}
 	}

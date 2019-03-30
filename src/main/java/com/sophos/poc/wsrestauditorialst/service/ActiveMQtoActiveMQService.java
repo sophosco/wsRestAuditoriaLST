@@ -24,7 +24,7 @@ public class ActiveMQtoActiveMQService {
 	private static final Logger logger = LogManager.getLogger(ActiveMQtoActiveMQService.class);
 
 	@Autowired
-	DefaultProperties dfp;
+	private DefaultProperties dfp;
 	
 	public boolean publishMessage(String request) {
 		try {
@@ -53,7 +53,7 @@ public class ActiveMQtoActiveMQService {
 				producerConnection.close();
 				pooledConnectionFactory.stop();
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("Close Exception", e);
 			}
 			return true;
 		} catch (JMSException jmsex) {			
@@ -92,14 +92,14 @@ public class ActiveMQtoActiveMQService {
 				producerConnection.close();
 				pooledConnectionFactory.stop();
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("Close Exception", e);				
 			}
 			return true;
 		} catch (JMSException jmsex) {			
-			logger.error("asd", jmsex);
+			logger.error("Error Enviando Mensaje a ActiveMQ jmsex", jmsex);
 			return false;
 		} catch (Exception ex) {
-			logger.error("asd", ex);
+			logger.error("Error Enviando Mensaje a ActiveMQ ex", ex);
 			return false;
 		}
 	}

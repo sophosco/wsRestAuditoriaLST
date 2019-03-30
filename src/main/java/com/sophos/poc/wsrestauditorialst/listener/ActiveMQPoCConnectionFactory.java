@@ -5,7 +5,9 @@ import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.Session;
 
-import org.apache.activemq.ActiveMQConnectionFactory; 
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +26,11 @@ import com.sophos.poc.wsrestauditorialst.util.DefaultProperties;
 public class ActiveMQPoCConnectionFactory {
 
 	@Autowired
-	DefaultProperties conf;
+	private DefaultProperties conf;
 	@Autowired
-	ActiveMqPoCListenerErrorHandler errorHadler;
+	private ActiveMqPoCListenerErrorHandler errorHadler;
+	
+	private static final Logger logger = LogManager.getLogger(ActiveMQPoCConnectionFactory.class);
 	
 	@Bean
 	public ConnectionFactory connectionFactory() throws JMSException {
@@ -48,7 +52,7 @@ public class ActiveMQPoCConnectionFactory {
 			factory.setDestinationResolver(myDestinationResolver());
 			return factory;
 		} catch (JMSException e) {
-			e.printStackTrace();
+			logger.error("Error JmsListenerContainerFactory",e);
 			return null;
 		}
 	}

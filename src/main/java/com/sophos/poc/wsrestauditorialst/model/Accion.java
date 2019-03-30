@@ -11,15 +11,18 @@ import org.springframework.validation.annotation.Validated;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.annotations.ApiModelProperty;
-@RedisHash("AccionDTO")
+@RedisHash("AccionUsuarioDTO")
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2019-03-24T18:02:46.113Z")
 public class Accion {
 
+	  @Id 
+	  @JsonProperty("RqUID")
+	  private String rqUID = null;
+	
 	  @JsonProperty("FechaCreacion")
 	  private String fechaCreacion = null;
 	  
-	  @Id 
 	  @JsonProperty("IdSesion")
 	  private String idSesion = null;
 
@@ -40,6 +43,9 @@ public class Accion {
 
 	  @JsonProperty("IdCategoria")
 	  private String idCategoria = null;
+	  
+	  @JsonProperty("MessageData")
+	  private String messageData = null;
 
 	  public Accion fechaCreacion(String fechaCreacion) {
 	    this.fechaCreacion = fechaCreacion;
@@ -242,7 +248,15 @@ public class Accion {
 	    return sb.toString();
 	  }
 
-	  /**
+	  public String getRqUID() {
+		return rqUID;
+	}
+
+	public void setRqUID(String rqUID) {
+		this.rqUID = rqUID;
+	}
+
+	/**
 	   * Convert the given object to string with each line indented by 4 spaces
 	   * (except the first line).
 	   */
@@ -252,4 +266,13 @@ public class Accion {
 	    }
 	    return o.toString().replace("\n", "\n    ");
 	  }
+
+	public String getMessageData() {
+		return messageData;
+	}
+
+	public void setMessageData(String messageData) {
+		this.messageData = messageData;
+	}
+	  
 }

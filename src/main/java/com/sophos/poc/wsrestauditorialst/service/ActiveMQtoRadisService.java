@@ -11,7 +11,7 @@ import com.sophos.poc.wsrestauditorialst.model.Accion;
 public class ActiveMQtoRadisService {
 
 	@Autowired
-	AccionRepository redisRepository;
+	private AccionRepository redisRepository;
 	
 	public void putMessage(String rq) throws Exception {
 		try {
