@@ -27,21 +27,25 @@ public class ActiveMQtoActiveMQService {
 	private DefaultProperties dfp;
 	
 	public boolean publishMessage(String request) {
+		Connection producerConnection = null;
+		Session producerSession = null;
+		MessageProducer producer = null;
+		PooledConnectionFactory pooledConnectionFactory = null;
 		try {
 			String message = request;
 
 			ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(dfp.getEndpoint());
 			connectionFactory.setUserName(dfp.getUser());
 			connectionFactory.setPassword(dfp.getPass());
-			PooledConnectionFactory pooledConnectionFactory = new PooledConnectionFactory();
+			pooledConnectionFactory = new PooledConnectionFactory();
 			pooledConnectionFactory.setConnectionFactory(connectionFactory);
 			pooledConnectionFactory.setMaxConnections(10);
-			Connection producerConnection = pooledConnectionFactory.createConnection();
-
+			producerConnection = pooledConnectionFactory.createConnection();
+			
 			producerConnection.start();
-			Session producerSession = producerConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			producerSession = producerConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 			Destination producerDestination = producerSession.createQueue(dfp.getQueue());
-			MessageProducer producer = producerSession.createProducer(producerDestination);
+			producer = producerSession.createProducer(producerDestination);
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
 			producer.setTimeToLive(20000l);
 
@@ -62,6 +66,12 @@ public class ActiveMQtoActiveMQService {
 		} catch (Exception ex) {
 			logger.error("Error Enviando Mensaje a ActiveMQ ex", ex);
 			return false;
+		}finally {
+			if(producer!= null) {try {producer.close();}catch(Exception e) {logger.error("Error Closing producer: ", e);}}
+			if(pooledConnectionFactory != null) {try {pooledConnectionFactory.stop();} catch (Exception e) {logger.error("Error Stopping pooledConnectionFactory: ", e);}}		
+			if(producerSession!= null) { try {producerSession.close();} catch (Exception e) {logger.error("Error Closing  producerSession: ", e);}}
+			if(producerConnection != null) {try {producerConnection.close();} catch (Exception e) {logger.error("Error Closing producerConnection: ", e);}}				
+
 		}
 	}
 	

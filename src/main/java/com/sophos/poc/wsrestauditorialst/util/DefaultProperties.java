@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DefaultProperties {
 	
-	public  String queue;
-	public  String errorQueue;
+	private  String queue;
+	private  String errorQueue;
 	private String endpoint;
 	private String user;
 	private String pass;
@@ -26,7 +26,7 @@ public class DefaultProperties {
 	
 	public DefaultProperties getInstance() {
 		if (instance == null) {
-			return instance = new DefaultProperties();
+			return new DefaultProperties();
 		}
 		return instance;
 	}
@@ -43,12 +43,12 @@ public class DefaultProperties {
 			String envQE = System.getenv().get(cts.POC_ACTIVE_QUEUEERR);
 			String envCC = System.getenv().get(cts.POC_ACTIVE_CONCRR);
 			
-			setEndpoint(envEP != null && envEP != "" ? envEP : pr.getProperty(cts.PRP_FILE_ENDPOINT));
-			setQueue(envQU != null && envQU != "" ? envQU : pr.getProperty(cts.PRP_FILE_QUEUE));
-			setUser(envUS != null && envUS != "" ? envUS : pr.getProperty(cts.PRP_FILE_USR));
-			setPass(envPS != null && envPS != "" ? envPS : pr.getProperty(cts.PRP_FILE_PSS));
-			setErrorQueue(envQE != null && envQE!= "" ? envQE : pr.getProperty(cts.PRP_FILE_QUEUEERR));
-			setConcurrency(envCC != null && envCC != "" ? envCC : pr.getProperty(cts.PRP_FILE_CONCRR));
+			setEndpoint(envEP != null && !envEP.equals("") ? envEP : pr.getProperty(cts.PRP_FILE_ENDPOINT));
+			setQueue(envQU != null && !envQU.equals("") ? envQU : pr.getProperty(cts.PRP_FILE_QUEUE));
+			setUser(envUS != null && !envUS.equals("") ? envUS : pr.getProperty(cts.PRP_FILE_USR));
+			setPass(envPS != null && !envPS.equals("") ? envPS : pr.getProperty(cts.PRP_FILE_PSS));
+			setErrorQueue(envQE != null && !envQE.equals("") ? envQE : pr.getProperty(cts.PRP_FILE_QUEUEERR));
+			setConcurrency(envCC != null && !envCC.equals("") ? envCC : pr.getProperty(cts.PRP_FILE_CONCRR));
 			
 		} catch (IOException ex) {
 			logger.error("Problem occurs when reading Default Config Properties config.properties !!!", ex);
