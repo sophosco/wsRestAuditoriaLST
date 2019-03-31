@@ -7,4 +7,3 @@ COPY ${DEPENDENCY}/META-INF /app/META-INF
 COPY ${DEPENDENCY}/BOOT-INF/classes /app
 EXPOSE 18081
 ENTRYPOINT ["java","-jar","/app.jar"]
-CMD ["sh", "-c", "tail -f /dev/null"]
