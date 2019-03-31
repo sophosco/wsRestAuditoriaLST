@@ -22,6 +22,7 @@ public class ActiveMQtoRadisService {
 			ObjectMapper mapper = new ObjectMapper();
 			Accion action = mapper.readValue(rq, Accion.class);
 			redisRepository.save(action);	
+			logger.info("Mensaje Enviado a Redis");
 		}catch (Exception e) {
 			logger.error("ERROR redisRepository info: ", redisRepository.toString());
 			throw e;

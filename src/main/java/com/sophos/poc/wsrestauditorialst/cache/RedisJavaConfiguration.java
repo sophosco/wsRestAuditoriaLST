@@ -21,18 +21,13 @@ public class RedisJavaConfiguration {
 	private static final Logger logger = LogManager.getLogger(RedisJavaConfiguration.class);
 	@Bean
 	JedisConnectionFactory jedisConnectionFactory() {
-		int 	redisPort = 6379;
-	    String  redisHost = "http://redis-master" ;	    
-		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
-	    return new JedisConnectionFactory(redisStandaloneConfiguration);	    
+	    return new JedisConnectionFactory();	    
 	}
 	 
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate() {
 	    RedisTemplate<String, Object> template = new RedisTemplate<>();
 	    template.setConnectionFactory(jedisConnectionFactory());
-	    logger.info("JedisConnectionFactory INFO: HostName-", jedisConnectionFactory().getHostName() );
-	    logger.info("JedisConnectionFactory INFO: Port-", jedisConnectionFactory().getPort() );
 	    return template;
 	}
 
