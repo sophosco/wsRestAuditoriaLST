@@ -32,7 +32,7 @@ public class RedisJavaConfiguration {
 	public RedisTemplate<String, Object> redisTemplate() {
 	    RedisTemplate<String, Object> template = new RedisTemplate<>();
 	    template.setConnectionFactory(jedisConnectionFactory());
-	    logger.info("HOST Redis: 172.20.88.24" );
+	    logger.info("redis-master:" +jedisConnectionFactory().getHostName());
 	    return template;
 	}
 
