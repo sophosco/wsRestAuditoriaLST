@@ -11,12 +11,15 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DefaultProperties {
 	
-	private  String queue;
-	private  String errorQueue;
+	private String queue;
+	private String errorQueue;
 	private String endpoint;
 	private String user;
 	private String pass;
 	private String concurrency;
+	private String redisHost;
+	private int	   redisPort;
+	private String redisPass;
 	
 	private static final Logger logger = LogManager.getLogger(DefaultProperties.class);
 	
@@ -42,6 +45,9 @@ public class DefaultProperties {
 			String envPS = System.getenv().get(cts.POC_ACTIVE_PSS);
 			String envQE = System.getenv().get(cts.POC_ACTIVE_QUEUEERR);
 			String envCC = System.getenv().get(cts.POC_ACTIVE_CONCRR);
+			String envRP = System.getenv().get(cts.POC_REDIS_PORT);
+			String envRH = System.getenv().get(cts.POC_REDIS_HOST);
+			String envRC = System.getenv().get(cts.POC_REDIS_PASS);
 			
 			setEndpoint(envEP != null && !envEP.equals("") ? envEP : pr.getProperty(cts.PRP_FILE_ENDPOINT));
 			setQueue(envQU != null && !envQU.equals("") ? envQU : pr.getProperty(cts.PRP_FILE_QUEUE));
@@ -49,10 +55,15 @@ public class DefaultProperties {
 			setPass(envPS != null && !envPS.equals("") ? envPS : pr.getProperty(cts.PRP_FILE_PSS));
 			setErrorQueue(envQE != null && !envQE.equals("") ? envQE : pr.getProperty(cts.PRP_FILE_QUEUEERR));
 			setConcurrency(envCC != null && !envCC.equals("") ? envCC : pr.getProperty(cts.PRP_FILE_CONCRR));
+			setRedisHost(envRH != null && !envRH.equals("") ? envRH : pr.getProperty(cts.PRP_REDIS_HOST));
+			setRedisPass(envRC != null && !envRC.equals("") ? envRC : pr.getProperty(cts.PRP_REDIS_PASS));
+			setRedisPort(envRP != null && !envRP.equals("") ? Integer.parseInt(envRP) : Integer.parseInt(pr.getProperty(cts.PRP_REDIS_PORT)) );
 			
 		} catch (IOException ex) {
 			logger.error("Problem occurs when reading Default Config Properties config.properties !!!", ex);
-		} 
+		} catch (NumberFormatException ex) {
+			setRedisPort(6379);
+		}
 		
 	}
 	public String getQueue() {
@@ -92,5 +103,23 @@ public class DefaultProperties {
 	}
 	public void setConcurrency(String concurrency) {
 		this.concurrency = concurrency;
+	}
+	public String getRedisHost() {
+		return redisHost;
+	}
+	public void setRedisHost(String redisHost) {
+		this.redisHost = redisHost;
+	}
+	public int getRedisPort() {
+		return redisPort;
+	}
+	public void setRedisPort(int redisPort) {
+		this.redisPort = redisPort;
+	}
+	public String getRedisPass() {
+		return redisPass;
+	}
+	public void setRedisPass(String redisPass) {
+		this.redisPass = redisPass;
 	}
 }
