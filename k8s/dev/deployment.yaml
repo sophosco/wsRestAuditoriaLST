@@ -25,6 +25,7 @@ spec:
           imagePullPolicy: Always
           ports:
           - containerPort: 18081
+          - containerPort: 443
           envFrom:
           - configMapRef:
               name: wsrestauditorialst-configmap
