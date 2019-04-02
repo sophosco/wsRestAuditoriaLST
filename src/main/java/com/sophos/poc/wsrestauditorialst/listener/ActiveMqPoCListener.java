@@ -26,9 +26,10 @@ public class ActiveMqPoCListener {
 	public void receiveMessage(String rq) {
 		try {
 			toRadis.putMessage(rq);
+			toActive.publishMessage(rq, conf.getAuditQueue(), true);
 		}catch(Exception ex) {
 			logger.error("Se presento un error enviando mensaje a Redis, Se retornara el mensaje a ActiveMQ:" + ex);
-			toActive.publishMessage(rq, conf.getErrorQueue());
+			toActive.publishMessage(rq, conf.getErrorQueue(), false);
 		}
 	}
 }
