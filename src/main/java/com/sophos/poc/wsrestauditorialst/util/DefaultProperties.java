@@ -13,6 +13,7 @@ public class DefaultProperties {
 	
 	private String queue;
 	private String errorQueue;
+	private String auditQueue;
 	private String endpoint;
 	private String user;
 	private String pass;
@@ -44,6 +45,7 @@ public class DefaultProperties {
 			String envUS = System.getenv().get(cts.POC_ACTIVE_USR);
 			String envPS = System.getenv().get(cts.POC_ACTIVE_PSS);
 			String envQE = System.getenv().get(cts.POC_ACTIVE_QUEUEERR);
+			String envQA = System.getenv().get(cts.POC_ACTIVE_QUEUEAUD);
 			String envCC = System.getenv().get(cts.POC_ACTIVE_CONCRR);
 			String envRP = System.getenv().get(cts.POC_REDIS_PORT);
 			String envRH = System.getenv().get(cts.POC_REDIS_HOST);
@@ -54,6 +56,7 @@ public class DefaultProperties {
 			setUser(envUS != null && !envUS.equals("") ? envUS : pr.getProperty(cts.PRP_FILE_USR));
 			setPass(envPS != null && !envPS.equals("") ? envPS : pr.getProperty(cts.PRP_FILE_PSS));
 			setErrorQueue(envQE != null && !envQE.equals("") ? envQE : pr.getProperty(cts.PRP_FILE_QUEUEERR));
+			setAuditQueue(envQA != null && !envQA.equals("") ? envQA : pr.getProperty(cts.PRP_FILE_QUEUEAUD));
 			setConcurrency(envCC != null && !envCC.equals("") ? envCC : pr.getProperty(cts.PRP_FILE_CONCRR));
 			setRedisHost(envRH != null && !envRH.equals("") ? envRH : pr.getProperty(cts.PRP_REDIS_HOST));
 			setRedisPass(envRC != null && !envRC.equals("") ? envRC : pr.getProperty(cts.PRP_REDIS_PASS));
@@ -121,5 +124,11 @@ public class DefaultProperties {
 	}
 	public void setRedisPass(String redisPass) {
 		this.redisPass = redisPass;
+	}
+	public String getAuditQueue() {
+		return auditQueue;
+	}
+	public void setAuditQueue(String auditQueue) {
+		this.auditQueue = auditQueue;
 	}
 }

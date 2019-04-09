@@ -68,7 +68,7 @@ public class ActiveMQtoActiveMQService {
 		}
 	}
 	
-	public boolean publishMessage(String request, String queue) {
+	public boolean publishMessage(String request, String queue, boolean persisten) {
 		Connection producerConnection = null;
 		Session producerSession = null;
 		MessageProducer producer = null;
@@ -89,7 +89,10 @@ public class ActiveMQtoActiveMQService {
 			Destination producerDestination = producerSession.createQueue(queue);
 			producer = producerSession.createProducer(producerDestination);
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
-			producer.setTimeToLive(20000l);
+			if(!persisten) {
+				producer.setTimeToLive(20000l);
+			}
+			
 
 			TextMessage producerMessage = producerSession.createTextMessage(message);
 			producer.send(producerMessage);
