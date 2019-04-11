@@ -35,7 +35,7 @@ podTemplate(
         def PROJECT      = 'sophosstore'
         def SERVICENAME  = 'wsrestauditorialst'
         def AWS_REGION   = 'us-east-2'
-        def REGISTRY_URL = "https://887482798966.dkr.ecr.us-east-2.amazonaws.com"
+        def REGISTRY_URL = 'https://887482798966.dkr.ecr.us-east-2.amazonaws.com'
         def IMAGEVERSION = "beta"
         def NAMESPACE    = 'dev'
         def IMAGETAG     = "$PROJECT/$SERVICENAME:$IMAGEVERSION${env.BUILD_NUMBER}"
@@ -56,9 +56,9 @@ podTemplate(
                     junit '**/target/surefire-reports/TEST-*.xml'
                 }
             }
-           /* stage('Scann Code') {
+            stage('Scann Code') {
                 sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube-sonarqube:9000 -DskipTests=true -Dsonar.projectKey=$SERVICENAME -Dsonar.projectName=$SERVICENAME"
-            }*/
+            /
 
         }//maven
 
